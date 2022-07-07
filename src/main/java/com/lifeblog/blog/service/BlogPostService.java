@@ -8,7 +8,7 @@ import java.util.List;
 public interface BlogPostService {
     BlogPostDto createBlogPost(BlogPostDto postDto);
 
-    List<BlogPostDto> getAllBlogPosts();
+    List<BlogPostDto> getAllBlogPosts(int pageSize, int pageNo);
 
     BlogPostDto getBlogPostById(long id);
 

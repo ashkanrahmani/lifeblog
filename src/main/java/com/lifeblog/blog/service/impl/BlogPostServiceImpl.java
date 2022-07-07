@@ -6,6 +6,8 @@ import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.service.BlogPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +43,6 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     private BlogPost getEntity(BlogPostDto postDto) {
-
         BlogPost blogPost = new BlogPost();
         blogPost.setTitle(postDto.getTitle());
         blogPost.setDescription(postDto.getContent());
@@ -50,10 +51,10 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public List<BlogPostDto> getAllBlogPosts() {
-
-        List<BlogPost> all = blogPostRepository.findAll();
-        return all.stream().map(blogPost -> getDto(blogPost)).collect(Collectors.toList());
+    public List<BlogPostDto> getAllBlogPosts(int pageSize, int pageNo) {
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+        Page<BlogPost> all = blogPostRepository.findAll(pageRequest);
+        return all.getContent().stream().map(blogPost -> getDto(blogPost)).collect(Collectors.toList());
     }
 
     @Override

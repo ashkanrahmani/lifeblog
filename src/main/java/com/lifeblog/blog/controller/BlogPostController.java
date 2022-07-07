@@ -26,8 +26,9 @@ public class BlogPostController {
     }
 
     @GetMapping
-    public List<BlogPostDto> getAllBlogPost() {
-        return blogPostService.getAllBlogPosts();
+    public List<BlogPostDto> getAllBlogPost(@RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return blogPostService.getAllBlogPosts(pageSize,pageNo);
     }
 
     @GetMapping("/{id}")
