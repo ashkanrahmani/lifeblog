@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@Data //performance issue in production
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
