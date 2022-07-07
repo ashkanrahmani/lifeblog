@@ -50,19 +50,19 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public List<BlogPostDto> getAllPosts() {
+    public List<BlogPostDto> getAllBlogPosts() {
 
         List<BlogPost> all = blogPostRepository.findAll();
         return all.stream().map(blogPost -> getDto(blogPost)).collect(Collectors.toList());
     }
 
     @Override
-    public BlogPostDto getPostById(long id) {
+    public BlogPostDto getBlogPostById(long id) {
         return getDto(blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id))));
     }
 
     @Override
-    public BlogPostDto updatePost(BlogPostDto blogPostDto, long id) {
+    public BlogPostDto updateBlogPost(BlogPostDto blogPostDto, long id) {
         BlogPost byId = blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id)));
         byId.setTitle(blogPostDto.getTitle());
         byId.setContent(blogPostDto.getContent());

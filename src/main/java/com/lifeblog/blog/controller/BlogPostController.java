@@ -27,17 +27,17 @@ public class BlogPostController {
 
     @GetMapping
     public List<BlogPostDto> getAllBlogPost() {
-        return blogPostService.getAllPosts();
+        return blogPostService.getAllBlogPosts();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BlogPostDto> getBlogPostById(@PathVariable(name = "id") long id) {
-        return ResponseEntity.ok(blogPostService.getPostById(id));
+        return ResponseEntity.ok(blogPostService.getBlogPostById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BlogPostDto> updateBlogPostById(@RequestBody BlogPostDto blogPostDto, @PathVariable(name = "id") long id) {
-        BlogPostDto updatePost = blogPostService.updatePost(blogPostDto, id);
+        BlogPostDto updatePost = blogPostService.updateBlogPost(blogPostDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
 
