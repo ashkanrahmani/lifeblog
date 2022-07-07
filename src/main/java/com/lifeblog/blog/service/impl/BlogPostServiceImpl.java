@@ -2,6 +2,7 @@ package com.lifeblog.blog.service.impl;
 
 import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.entity.BlogPost;
+import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.service.BlogPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,10 @@ public class BlogPostServiceImpl implements BlogPostService {
 
         List<BlogPost> all = blogPostRepository.findAll();
         return all.stream().map(blogPost -> getDto(blogPost)).collect(Collectors.toList());
+    }
+
+    @Override
+    public BlogPostDto getPostById(long id) {
+        return getDto(blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id))));
     }
 }

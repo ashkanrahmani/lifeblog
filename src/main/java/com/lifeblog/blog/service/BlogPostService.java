@@ -9,4 +9,6 @@ import java.util.List;
 public interface BlogPostService {
     BlogPostDto createBlogPost(BlogPostDto postDto);
     List<BlogPostDto> getAllPosts();
+
+    BlogPostDto getPostById(long id);
 }

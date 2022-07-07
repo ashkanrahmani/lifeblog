@@ -26,7 +26,12 @@ public class BlogPostController {
     }
 
     @GetMapping
-    public List<BlogPostDto> getAllPost(){
+    public List<BlogPostDto> getAllPost() {
         return blogPostService.getAllPosts();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BlogPostDto> getPostById(@PathVariable(name = "id") long id) {
+        return ResponseEntity.ok(blogPostService.getPostById(id));
     }
 }
