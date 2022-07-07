@@ -36,9 +36,14 @@ public class BlogPostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BlogPostDto> updateBlogPostById(@RequestBody BlogPostDto blogPostDto,
-                                                          @PathVariable(name = "id") long id){
+    public ResponseEntity<BlogPostDto> updateBlogPostById(@RequestBody BlogPostDto blogPostDto, @PathVariable(name = "id") long id) {
         BlogPostDto updatePost = blogPostService.updatePost(blogPostDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBlogPost(@PathVariable(name = "id") long id) {
+        blogPostService.deleteBlogPostById(id);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

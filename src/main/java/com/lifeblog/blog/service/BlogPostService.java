@@ -13,4 +13,6 @@ public interface BlogPostService {
     BlogPostDto getPostById(long id);
 
     BlogPostDto updatePost(BlogPostDto blogPostDto, long id);
+
+    void deleteBlogPostById(long id);
 }

@@ -69,4 +69,10 @@ public class BlogPostServiceImpl implements BlogPostService {
         byId.setDescription(blogPostDto.getDescription());
         return getDto(blogPostRepository.save(byId));
     }
+
+    @Override
+    public void deleteBlogPostById(long id) {
+        BlogPost byId = blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id)));
+        blogPostRepository.delete(byId);
+    }
 }
