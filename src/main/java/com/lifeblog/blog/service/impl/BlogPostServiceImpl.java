@@ -60,4 +60,13 @@ public class BlogPostServiceImpl implements BlogPostService {
     public BlogPostDto getPostById(long id) {
         return getDto(blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id))));
     }
+
+    @Override
+    public BlogPostDto updatePost(BlogPostDto blogPostDto, long id) {
+        BlogPost byId = blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id)));
+        byId.setTitle(blogPostDto.getTitle());
+        byId.setContent(blogPostDto.getContent());
+        byId.setDescription(blogPostDto.getDescription());
+        return getDto(blogPostRepository.save(byId));
+    }
 }

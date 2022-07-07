@@ -21,17 +21,24 @@ public class BlogPostController {
 
 
     @PostMapping
-    public ResponseEntity<BlogPostDto> createPost(@RequestBody BlogPostDto postDto) {
+    public ResponseEntity<BlogPostDto> createBlogPost(@RequestBody BlogPostDto postDto) {
         return new ResponseEntity<>(blogPostService.createBlogPost(postDto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<BlogPostDto> getAllPost() {
+    public List<BlogPostDto> getAllBlogPost() {
         return blogPostService.getAllPosts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BlogPostDto> getPostById(@PathVariable(name = "id") long id) {
+    public ResponseEntity<BlogPostDto> getBlogPostById(@PathVariable(name = "id") long id) {
         return ResponseEntity.ok(blogPostService.getPostById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BlogPostDto> updateBlogPostById(@RequestBody BlogPostDto blogPostDto,
+                                                          @PathVariable(name = "id") long id){
+        BlogPostDto updatePost = blogPostService.updatePost(blogPostDto, id);
+        return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
 }
