@@ -1,4 +1,4 @@
-package com.lifeblog.blog.entity.payload;
+package com.lifeblog.blog.controller.payload;
 
 import lombok.Data;
 
