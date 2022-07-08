@@ -1,6 +1,7 @@
 package com.lifeblog.blog.service.impl;
 
 import com.lifeblog.blog.controller.payload.BlogPostDto;
+import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.entity.BlogPost;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
@@ -51,10 +52,14 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public List<BlogPostDto> getAllBlogPosts(int pageSize, int pageNo) {
+    public BlogPostResponse getAllBlogPosts(int pageSize, int pageNo) {
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
         Page<BlogPost> all = blogPostRepository.findAll(pageRequest);
-        return all.getContent().stream().map(blogPost -> getDto(blogPost)).collect(Collectors.toList());
+
+        List<BlogPostDto> collect = all.getContent().stream().map(blogPost -> getDto(blogPost)).toList();
+        return new BlogPostResponse(collect,
+                all.getPageable().getPageNumber(),
+                all.getPageable().getPageSize(),all.getTotalElements(),all.getTotalPages(),all.isLast());
     }
 
     @Override

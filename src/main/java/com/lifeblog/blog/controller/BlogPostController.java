@@ -1,6 +1,7 @@
 package com.lifeblog.blog.controller;
 
 import com.lifeblog.blog.controller.payload.BlogPostDto;
+import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.service.BlogPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,8 @@ public class BlogPostController {
     }
 
     @GetMapping
-    public List<BlogPostDto> getAllBlogPost(@RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+    public BlogPostResponse getAllBlogPost(@RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                           @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
         return blogPostService.getAllBlogPosts(pageSize,pageNo);
     }
 
