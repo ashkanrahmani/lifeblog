@@ -1,26 +1,28 @@
 package com.lifeblog.blog.service.impl;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.entity.BlogPost;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.service.BlogPostService;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BlogPostServiceImpl implements BlogPostService {
 
     private final BlogPostRepository blogPostRepository;
+    private final ModelMapper mapper;
 
-    public BlogPostServiceImpl(BlogPostRepository blogPostRepository) {
+    public BlogPostServiceImpl(BlogPostRepository blogPostRepository, ModelMapper mapper) {
         this.blogPostRepository = blogPostRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -32,37 +34,24 @@ public class BlogPostServiceImpl implements BlogPostService {
         return blogPostDto;
     }
 
-    private BlogPostDto getDto(BlogPost save) {
-
-        BlogPostDto blogPostDto = new BlogPostDto();
-        blogPostDto.setId(save.getId());
-        blogPostDto.setTitle(save.getTitle());
-        blogPostDto.setContent(save.getContent());
-        blogPostDto.setDescription(save.getDescription());
-        return blogPostDto;
+    private BlogPostDto getDto(BlogPost entity) {
+        return mapper.map(entity, BlogPostDto.class);
     }
 
-    private BlogPost getEntity(BlogPostDto postDto) {
-        BlogPost blogPost = new BlogPost();
-        blogPost.setTitle(postDto.getTitle());
-        blogPost.setDescription(postDto.getContent());
-        blogPost.setContent(postDto.getContent());
-        return blogPost;
+    private BlogPost getEntity(BlogPostDto dto) {
+        return mapper.map(dto, BlogPost.class);
     }
 
     @Override
-    public BlogPostResponse getAllBlogPosts(int pageSize, int pageNo, String sortBy,String sortDir) {
+    public BlogPostResponse getAllBlogPosts(int pageSize, int pageNo, String sortBy, String sortDir) {
 
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :
-                Sort.by(sortBy).descending();
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize, sort);
         Page<BlogPost> all = blogPostRepository.findAll(pageRequest);
 
         List<BlogPostDto> collect = all.getContent().stream().map(blogPost -> getDto(blogPost)).toList();
-        return new BlogPostResponse(collect,
-                all.getPageable().getPageNumber(),
-                all.getPageable().getPageSize(),all.getTotalElements(),all.getTotalPages(),all.isLast());
+        return new BlogPostResponse(collect, all.getPageable().getPageNumber(), all.getPageable().getPageSize(), all.getTotalElements(), all.getTotalPages(), all.isLast());
     }
 
     @Override
