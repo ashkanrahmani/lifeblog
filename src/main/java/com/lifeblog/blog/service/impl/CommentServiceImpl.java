@@ -28,8 +28,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto createComment(long blogPostId, CommentDto commentDto) {
         Comment comment = getEntity(commentDto);
-        BlogPost blogPost = blogPostRepository.findById(blogPostId)
-                .orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
+        BlogPost blogPost = getBlogPost(blogPostId);
 
         comment.setBlogPost(blogPost);
         Comment savedComment = commentRepository.save(comment);
@@ -44,17 +43,54 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto getCommentById(long blogPostId, long commentId) {
-        BlogPost blogPost = blogPostRepository.findById(blogPostId)
-                .orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
+        BlogPost blogPost = getBlogPost(blogPostId);
 
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", String.valueOf(blogPostId)));
+        Comment comment = getComment(commentId);
 
-        if (!comment.getBlogPost().getId().equals(blogPost.getId())){
+        if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
             throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
         }
 
         return getDto(comment);
+    }
+
+    private Comment getComment(long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", String.valueOf(commentId)));
+        return comment;
+    }
+
+    private BlogPost getBlogPost(long blogPostId) {
+        BlogPost blogPost = blogPostRepository.findById(blogPostId).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
+        return blogPost;
+    }
+
+    @Override
+    public CommentDto updateComment(long blogPostId, long commentId, CommentDto commentDto) {
+        BlogPost blogPost = getBlogPost(blogPostId);
+        Comment comment = getComment(commentId);
+
+        if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+        }
+
+        comment.setBody(commentDto.getBody());
+        comment.setEmail(commentDto.getEmail());
+        comment.setName(commentDto.getName());
+
+        return getDto(commentRepository.save(comment));
+    }
+
+    @Override
+    public void deleteCommentById(long blogPostId, long commentId) {
+        BlogPost blogPost = getBlogPost(blogPostId);
+        Comment comment = getComment(commentId);
+
+        if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+        }
+
+        commentRepository.delete(comment);
+
     }
 
     private CommentDto getDto(Comment comment) {
