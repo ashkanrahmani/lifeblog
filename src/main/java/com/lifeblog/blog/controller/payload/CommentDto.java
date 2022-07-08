@@ -16,13 +16,13 @@ import javax.validation.constraints.Size;
 public class CommentDto {
     private long id;
 
-    @NotEmpty
+    @NotEmpty (message = "Name should not be empty")
     @Size(min = 2, message = "comment name should have at least 10 characters.")
     private String name;
 
     @Email(message = "Not in email format")
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "Body should not be empty")
     private String body;
 }
