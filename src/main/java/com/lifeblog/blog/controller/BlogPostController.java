@@ -1,20 +1,13 @@
 package com.lifeblog.blog.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.service.BlogPostService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -27,7 +20,7 @@ public class BlogPostController {
 
 
     @PostMapping
-    public ResponseEntity<BlogPostDto> createBlogPost(@RequestBody BlogPostDto postDto) {
+    public ResponseEntity<BlogPostDto> createBlogPost(@Valid @RequestBody BlogPostDto postDto) {
         return new ResponseEntity<>(blogPostService.createBlogPost(postDto), HttpStatus.CREATED);
     }
 
@@ -36,7 +29,7 @@ public class BlogPostController {
                                            @RequestParam(name = "pageSize", defaultValue = "${app.default.page.size}", required = false) int pageSize,
                                            @RequestParam(name = "sortBy", defaultValue = "${app.default.sort.by}", required = false) String sortBy,
                                            @RequestParam(name = "sortDir", defaultValue = "${app.default.sort.dir}", required = false) String sortDir) {
-        return blogPostService.getAllBlogPosts(pageSize,pageNo, sortBy, sortDir);
+        return blogPostService.getAllBlogPosts(pageSize, pageNo, sortBy, sortDir);
     }
 
     @GetMapping("/{id}")
@@ -45,7 +38,7 @@ public class BlogPostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BlogPostDto> updateBlogPostById(@RequestBody BlogPostDto blogPostDto, @PathVariable(name = "id") long id) {
+    public ResponseEntity<BlogPostDto> updateBlogPostById(@Valid @RequestBody BlogPostDto blogPostDto, @PathVariable(name = "id") long id) {
         BlogPostDto updatePost = blogPostService.updateBlogPost(blogPostDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
