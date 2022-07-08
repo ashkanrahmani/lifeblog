@@ -11,10 +11,10 @@ public class ApplicationAPIException extends RuntimeException {
         this.message = message;
     }
 
-    public ApplicationAPIException(String message, HttpStatus httpStatus, String message1) {
-        super(message);
+    public ApplicationAPIException(String messageToSuper, HttpStatus httpStatus, String message) {
+        super(messageToSuper);
         this.httpStatus = httpStatus;
-        this.message = message1;
+        this.message = message;
     }
 
     public HttpStatus getHttpStatus() {

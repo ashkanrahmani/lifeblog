@@ -3,13 +3,16 @@ package com.lifeblog.blog.service.impl;
 import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.entity.BlogPost;
+import com.lifeblog.blog.exception.ApplicationAPIException;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.service.BlogPostService;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,9 +30,13 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Override
     public BlogPostDto createBlogPost(BlogPostDto postDto) {
-
         BlogPost blogPost = getEntity(postDto);
-        BlogPost save = blogPostRepository.save(blogPost);
+        BlogPost save;
+        try {
+            save = blogPostRepository.save(blogPost);
+        } catch (DataIntegrityViolationException e) {
+            throw new ApplicationAPIException(e.getMessage(), HttpStatus.BAD_REQUEST, e.getMessage());
+        }
         BlogPostDto blogPostDto = getDto(save);
         return blogPostDto;
     }
