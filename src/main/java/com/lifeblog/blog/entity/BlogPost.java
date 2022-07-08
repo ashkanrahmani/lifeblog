@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data //performance issue in production
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "blog_posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"},name = "blog_posts_uc")})
+@Table(name = "blog_posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"}, name = "blog_posts_uc")})
 public class BlogPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +27,6 @@ public class BlogPost {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @OneToMany(mappedBy = "blogPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 }
