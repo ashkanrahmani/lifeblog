@@ -20,10 +20,10 @@ public class Comment {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "body", nullable = false)
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY)
