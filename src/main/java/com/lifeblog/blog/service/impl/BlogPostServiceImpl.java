@@ -9,6 +9,7 @@ import com.lifeblog.blog.service.BlogPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,8 +53,12 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public BlogPostResponse getAllBlogPosts(int pageSize, int pageNo) {
-        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+    public BlogPostResponse getAllBlogPosts(int pageSize, int pageNo, String sortBy,String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, sort);
         Page<BlogPost> all = blogPostRepository.findAll(pageRequest);
 
         List<BlogPostDto> collect = all.getContent().stream().map(blogPost -> getDto(blogPost)).toList();

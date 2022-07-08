@@ -9,7 +9,7 @@ import java.util.List;
 public interface BlogPostService {
     BlogPostDto createBlogPost(BlogPostDto postDto);
 
-    BlogPostResponse getAllBlogPosts(int pageSize, int pageNo);
+    BlogPostResponse getAllBlogPosts(int pageSize, int pageNo,String sortBy,String sortDir);
 
     BlogPostDto getBlogPostById(long id);
 
