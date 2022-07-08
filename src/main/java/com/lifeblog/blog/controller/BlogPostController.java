@@ -4,10 +4,12 @@ import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.service.BlogPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Struct;
 import java.util.List;
 
 @RestController
@@ -27,10 +29,10 @@ public class BlogPostController {
     }
 
     @GetMapping
-    public BlogPostResponse getAllBlogPost(@RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                           @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize,
-                                           @RequestParam(name = "sortBy", defaultValue = "id", required = false) String sortBy,
-                                           @RequestParam(name = "sortDir", defaultValue = "asc", required = false) String sortDir) {
+    public BlogPostResponse getAllBlogPost(@RequestParam(name = "pageNo", defaultValue = "${app.default.page.number}", required = false) int pageNo,
+                                           @RequestParam(name = "pageSize", defaultValue = "${app.default.page.size}", required = false) int pageSize,
+                                           @RequestParam(name = "sortBy", defaultValue = "${app.default.sort.by}", required = false) String sortBy,
+                                           @RequestParam(name = "sortDir", defaultValue = "${app.default.sort.dir}", required = false) String sortDir) {
         return blogPostService.getAllBlogPosts(pageSize,pageNo, sortBy, sortDir);
     }
 
