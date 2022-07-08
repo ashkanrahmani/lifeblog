@@ -10,11 +10,11 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.Date;
 
 @ControllerAdvice
-public class GlobalHandler  {
+public class GlobalHandler {
+
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException notFoundException,
-                                                                        WebRequest webRequest){
+    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException notFoundException, WebRequest webRequest) {
 
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setDate(new Date());
@@ -25,14 +25,24 @@ public class GlobalHandler  {
     }
 
     @ExceptionHandler(ApplicationAPIException.class)
-    public ResponseEntity<ErrorDetails> handleApplicationAPIException(ApplicationAPIException apiException,
-                                                                        WebRequest webRequest){
+    public ResponseEntity<ErrorDetails> handleApplicationAPIException(ApplicationAPIException apiException, WebRequest webRequest) {
 
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setDate(new Date());
         errorDetails.setMessage(apiException.getMessage());
         errorDetails.setDetails(webRequest.getDescription(false));
 
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDetails> handleException(Exception exception, WebRequest webRequest) {
+
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setDate(new Date());
+        errorDetails.setMessage(exception.getMessage());
+        errorDetails.setDetails(webRequest.getDescription(false));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
