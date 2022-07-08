@@ -1,8 +1,12 @@
 package com.lifeblog.blog.controller.payload;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BlogPostDto {
     private Long id;
     private String title;

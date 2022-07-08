@@ -1,16 +1,15 @@
 package com.lifeblog.blog.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data //performance issue in production
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "blog_posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"}, name = "blog_posts_uc")})
 public class BlogPost {

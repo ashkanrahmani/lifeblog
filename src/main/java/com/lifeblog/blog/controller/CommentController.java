@@ -1,21 +1,18 @@
 package com.lifeblog.blog.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.lifeblog.blog.controller.payload.CommentDto;
 import com.lifeblog.blog.service.CommentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
 public class CommentController {
 
-    private final CommentService commentService; 
+    private final CommentService commentService;
 
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
@@ -23,8 +20,18 @@ public class CommentController {
 
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long blogPostId,
-            @RequestBody CommentDto commentDto) {
+                                                    @RequestBody CommentDto commentDto) {
 
         return new ResponseEntity<>(commentService.createComment(blogPostId, commentDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/posts/{postId}/comments")
+    public List<CommentDto> getCommentByBlogPostId(@PathVariable(value = "postId") long blogPostId) {
+        return commentService.getCommentsByBlogPostId(blogPostId);
+    }
+
+    @GetMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "postId") long blogPostId,@PathVariable(value = "commentId") long commentId) {
+        return new ResponseEntity<>( commentService.getCommentById(blogPostId,commentId),HttpStatus.OK);
     }
 }

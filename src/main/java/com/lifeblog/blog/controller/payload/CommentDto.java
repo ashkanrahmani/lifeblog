@@ -1,8 +1,11 @@
 package com.lifeblog.blog.controller.payload;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentDto {
     private long id;
     private String name;
