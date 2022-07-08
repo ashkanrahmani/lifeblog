@@ -2,6 +2,8 @@ package com.lifeblog.blog.controller.payload;
 
 import lombok.*;
 
+import java.util.Set;
+
 
 @Setter
 @Getter
@@ -12,4 +14,5 @@ public class BlogPostDto {
     private String title;
     private String description;
     private String content;
+    private Set<CommentDto> comments;
 }
