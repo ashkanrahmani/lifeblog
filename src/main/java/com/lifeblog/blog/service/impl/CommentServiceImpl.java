@@ -64,8 +64,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private BlogPost getBlogPost(long blogPostId) {
-        BlogPost blogPost = blogPostRepository.findById(blogPostId).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
-        return blogPost;
+        return blogPostRepository.findById(blogPostId).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
     }
 
     @Override
