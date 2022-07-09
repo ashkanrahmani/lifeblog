@@ -7,7 +7,6 @@ import com.lifeblog.blog.entity.User;
 import com.lifeblog.blog.repository.RoleRepository;
 import com.lifeblog.blog.repository.UserRepository;
 import com.lifeblog.blog.service.AuthenticationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,15 +24,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final ModelMapper modelMapper;
 
-
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.modelMapper = modelMapper;
     }
 
 
