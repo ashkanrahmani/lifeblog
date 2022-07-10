@@ -41,12 +41,12 @@ public class BlogPostServiceImpl implements BlogPostService {
         return blogPostDto;
     }
 
-    private BlogPostDto getDto(BlogPost entity) {
-        return mapper.map(entity, BlogPostDto.class);
-    }
-
     private BlogPost getEntity(BlogPostDto dto) {
         return mapper.map(dto, BlogPost.class);
+    }
+
+    private BlogPostDto getDto(BlogPost entity) {
+        return mapper.map(entity, BlogPostDto.class);
     }
 
     @Override

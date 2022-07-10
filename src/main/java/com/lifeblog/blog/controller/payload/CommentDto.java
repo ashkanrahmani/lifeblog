@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 public class CommentDto {
     private long id;
 
-    @NotEmpty (message = "Name should not be empty")
+    @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, message = "comment name should have at least 10 characters.")
     private String name;
 

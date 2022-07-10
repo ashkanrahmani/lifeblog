@@ -62,10 +62,6 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", String.valueOf(commentId)));
     }
 
-    private BlogPost getBlogPost(long blogPostId) {
-        return blogPostRepository.findById(blogPostId).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
-    }
-
     @Override
     public CommentDto updateComment(long blogPostId, long commentId, CommentDto commentDto) {
         BlogPost blogPost = getBlogPost(blogPostId);
@@ -95,11 +91,15 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    private CommentDto getDto(Comment entity) {
-        return mapper.map(entity, CommentDto.class);
-    }
-
     private Comment getEntity(CommentDto dto) {
         return mapper.map(dto, Comment.class);
+    }
+
+    private BlogPost getBlogPost(long blogPostId) {
+        return blogPostRepository.findById(blogPostId).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
+    }
+
+    private CommentDto getDto(Comment entity) {
+        return mapper.map(entity, CommentDto.class);
     }
 }

@@ -2,7 +2,6 @@ package com.lifeblog.blog.security;
 
 import com.lifeblog.blog.entity.Role;
 import com.lifeblog.blog.entity.User;
-import com.lifeblog.blog.repository.RoleRepository;
 import com.lifeblog.blog.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
