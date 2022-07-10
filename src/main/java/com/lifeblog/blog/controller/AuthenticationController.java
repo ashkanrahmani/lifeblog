@@ -1,5 +1,6 @@
 package com.lifeblog.blog.controller;
 
+import com.lifeblog.blog.controller.payload.JwtAuthResponse;
 import com.lifeblog.blog.controller.payload.SignInDto;
 import com.lifeblog.blog.controller.payload.SignUpDto;
 import com.lifeblog.blog.service.AuthenticationService;
@@ -21,13 +22,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody SignInDto signinDto) {
+    public ResponseEntity<JwtAuthResponse> authenticateUser(@RequestBody SignInDto signinDto) {
         authenticationService.signInUser(signinDto);
-        if (!signinDto.isSignedIn()) {
-            return new ResponseEntity<>("User login failed", HttpStatus.BAD_REQUEST);
+        if (signinDto.isSignedIn()) {
+            return  ResponseEntity.ok(new JwtAuthResponse(signinDto.getToken()));
         }
-        return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
-
+        return  ResponseEntity.ok(new JwtAuthResponse(""));
     }
 
     @PostMapping("/signup")

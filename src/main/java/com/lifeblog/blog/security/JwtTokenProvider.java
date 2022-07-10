@@ -34,7 +34,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token)  {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
         } catch (SignatureException e) {
@@ -48,8 +48,6 @@ public class JwtTokenProvider {
         } catch (IllegalArgumentException e) {
             throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "jwt claims string is empty");
         }
-
         return true;
-
     }
 }

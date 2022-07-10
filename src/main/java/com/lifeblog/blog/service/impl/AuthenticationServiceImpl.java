@@ -6,6 +6,7 @@ import com.lifeblog.blog.entity.Role;
 import com.lifeblog.blog.entity.User;
 import com.lifeblog.blog.repository.RoleRepository;
 import com.lifeblog.blog.repository.UserRepository;
+import com.lifeblog.blog.security.JwtTokenProvider;
 import com.lifeblog.blog.service.AuthenticationService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,19 +25,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository,
+                                     RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
 
     @Override
     public SignInDto signInUser(SignInDto signInDto) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword()));
+        Authentication authenticate = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
+        signInDto.setToken(jwtTokenProvider.generateToken(authenticate));
         signInDto.setSignedIn(true);
         return signInDto;
     }

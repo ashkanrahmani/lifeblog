@@ -13,7 +13,7 @@ import lombok.Setter;
 public class SignInDto {
     private String username;
     private String password;
-
+    private String token;
     @JsonIgnore
     private boolean isSignedIn = false;
 }
