@@ -48,4 +48,14 @@ public class BlogPostController {
         blogPostService.deleteBlogPostById(id);
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
+
+    @GetMapping(value = "/version", headers = "X-API-VERSION=1")
+    public ResponseEntity<String> getVersionV1(){
+        return new ResponseEntity<>("Version 1",HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/version", headers = "X-API-VERSION=2")
+    public ResponseEntity<String> getVersionV2(){
+        return new ResponseEntity<>("Version 2",HttpStatus.OK);
+    }
 }
