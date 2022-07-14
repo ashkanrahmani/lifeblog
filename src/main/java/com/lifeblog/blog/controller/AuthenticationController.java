@@ -1,18 +1,19 @@
 package com.lifeblog.blog.controller;
 
-import com.lifeblog.blog.controller.payload.JwtAuthResponse;
-import com.lifeblog.blog.controller.payload.SignInDto;
-import com.lifeblog.blog.controller.payload.SignUpDto;
-import com.lifeblog.blog.service.AuthenticationService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.lifeblog.blog.controller.payload.JwtAuthResponse;
+import com.lifeblog.blog.controller.payload.SignInDto;
+import com.lifeblog.blog.controller.payload.SignUpDto;
+import com.lifeblog.blog.service.AuthenticationService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "AuthController provide signup and signin api")
 @RestController

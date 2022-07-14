@@ -2,9 +2,7 @@ package com.lifeblog.blog.controller.payload;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @ApiModel(value = "JWT Model")
