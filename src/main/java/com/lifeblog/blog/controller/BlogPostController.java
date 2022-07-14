@@ -35,7 +35,8 @@ public class BlogPostController {
         return new ResponseEntity<>(blogPostService.createBlogPost(postDto), HttpStatus.CREATED);
     }
 
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
+            MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public BlogPostResponse getAllBlogPost(
             @RequestParam(name = "pageNo", defaultValue = "${app.default.page.number}", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "${app.default.page.size}", required = false) int pageSize,
