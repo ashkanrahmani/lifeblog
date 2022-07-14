@@ -38,10 +38,10 @@ public class BlogPostController {
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
             MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public BlogPostResponse getAllBlogPost(
-            @RequestParam(name = "pageNo", defaultValue = "${app.default.page.number}", required = false) int pageNo,
-            @RequestParam(name = "pageSize", defaultValue = "${app.default.page.size}", required = false) int pageSize,
-            @RequestParam(name = "sortBy", defaultValue = "${app.default.sort.by}", required = false) String sortBy,
-            @RequestParam(name = "sortDir", defaultValue = "${app.default.sort.dir}", required = false) String sortDir) {
+            @RequestParam(name = "pageNo", defaultValue = "${app.api.default.page.number}", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "${app.api.default.page.size}", required = false) int pageSize,
+            @RequestParam(name = "sortBy", defaultValue = "${app.api.default.sort.by}", required = false) String sortBy,
+            @RequestParam(name = "sortDir", defaultValue = "${app.api.default.sort.dir}", required = false) String sortDir) {
         return blogPostService.getAllBlogPosts(pageSize, pageNo, sortBy, sortDir);
     }
 

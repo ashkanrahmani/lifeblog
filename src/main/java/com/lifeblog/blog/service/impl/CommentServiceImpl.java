@@ -4,6 +4,7 @@ import com.lifeblog.blog.controller.payload.CommentDto;
 import com.lifeblog.blog.entity.BlogPost;
 import com.lifeblog.blog.entity.Comment;
 import com.lifeblog.blog.exception.ApplicationAPIException;
+import com.lifeblog.blog.exception.ResourceNotFoundExceptionMessage;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.repository.CommentRepository;
@@ -23,7 +24,8 @@ public class CommentServiceImpl implements CommentService {
 
     private final ModelMapper mapper;
 
-    public CommentServiceImpl(CommentRepository commentRepository, BlogPostRepository blogPostRepository, ModelMapper mapper) {
+    public CommentServiceImpl(CommentRepository commentRepository, BlogPostRepository blogPostRepository,
+            ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.blogPostRepository = blogPostRepository;
         this.mapper = mapper;
@@ -59,7 +61,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Comment getComment(long commentId) {
-        return commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", String.valueOf(commentId)));
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundExceptionMessage.RESOURCE_NOT_FOUND.getErrorMessage(),
+                        "Comment", "id", String.valueOf(commentId)));
     }
 
     @Override
@@ -96,7 +100,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private BlogPost getBlogPost(long blogPostId) {
-        return blogPostRepository.findById(blogPostId).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "id", String.valueOf(blogPostId)));
+        return blogPostRepository.findById(blogPostId)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundExceptionMessage.RESOURCE_NOT_FOUND.getErrorMessage(),
+                        "BlogPost", "id", String.valueOf(blogPostId)));
     }
 
     private CommentDto getDto(Comment entity) {

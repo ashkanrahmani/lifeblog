@@ -4,6 +4,7 @@ import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.entity.BlogPost;
 import com.lifeblog.blog.exception.ApplicationAPIException;
+import com.lifeblog.blog.exception.ResourceNotFoundExceptionMessage;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.service.BlogPostService;
@@ -52,23 +53,29 @@ public class BlogPostServiceImpl implements BlogPostService {
     @Override
     public BlogPostResponse getAllBlogPosts(int pageSize, int pageNo, String sortBy, String sortDir) {
 
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
 
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize, sort);
         Page<BlogPost> all = blogPostRepository.findAll(pageRequest);
 
         List<BlogPostDto> collect = all.getContent().stream().map(blogPost -> getDto(blogPost)).toList();
-        return new BlogPostResponse(collect, all.getPageable().getPageNumber(), all.getPageable().getPageSize(), all.getTotalElements(), all.getTotalPages(), all.isLast());
+        return new BlogPostResponse(collect, all.getPageable().getPageNumber(), all.getPageable().getPageSize(),
+                all.getTotalElements(), all.getTotalPages(), all.isLast());
     }
 
     @Override
     public BlogPostDto getBlogPostById(long id) {
-        return getDto(blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id))));
+        return getDto(blogPostRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundExceptionMessage.RESOURCE_NOT_FOUND.getErrorMessage(),
+                        "Post", "id", String.valueOf(id))));
     }
 
     @Override
     public BlogPostDto updateBlogPost(BlogPostDto blogPostDto, long id) {
-        BlogPost byId = blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id)));
+        BlogPost byId = blogPostRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundExceptionMessage.RESOURCE_NOT_FOUND.getErrorMessage(),
+                        "Post", "id", String.valueOf(id)));
         byId.setTitle(blogPostDto.getTitle());
         byId.setContent(blogPostDto.getContent());
         byId.setDescription(blogPostDto.getDescription());
@@ -77,7 +84,9 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Override
     public void deleteBlogPostById(long id) {
-        BlogPost byId = blogPostRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(id)));
+        BlogPost byId = blogPostRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundExceptionMessage.RESOURCE_NOT_FOUND.getErrorMessage(),
+                        "Post", "id", String.valueOf(id)));
         blogPostRepository.delete(byId);
     }
 }

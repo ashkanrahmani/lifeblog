@@ -1,21 +1,15 @@
 package com.lifeblog.blog.security;
 
-import java.util.Date;
-
+import com.lifeblog.blog.exception.ApplicationAPIException;
+import com.lifeblog.blog.exception.ApplicationAPIExceptionMessage;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.lifeblog.blog.exception.ApplicationAPIException;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.SignatureException;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
@@ -41,19 +35,19 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token)  {
+    public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
         } catch (SignatureException e) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "invalid JWT sig.");
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.INVALID_JWT_SIGNATURE.getErrorMessage());
         } catch (MalformedJwtException e) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "invalid JWT token");
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.INVALID_JWT_TOKEN.getErrorMessage());
         } catch (ExpiredJwtException e) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "expired JWT token");
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.EXPIRED_JWT_TOKEN.getErrorMessage());
         } catch (UnsupportedJwtException e) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "unsupported JWT token");
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.UNSUPPORTED_JWT_TOKEN.getErrorMessage());
         } catch (IllegalArgumentException e) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "jwt claims string is empty");
+            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.CLAIMS_IS_EMPTY.getErrorMessage());
         }
         return true;
     }
