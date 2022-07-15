@@ -23,6 +23,7 @@ import com.lifeblog.blog.service.BlogPostService;
 @RestController
 @RequestMapping("/api/posts")
 public class BlogPostController {
+
     private final BlogPostService blogPostService;
 
     public BlogPostController(BlogPostService blogPostService) {
