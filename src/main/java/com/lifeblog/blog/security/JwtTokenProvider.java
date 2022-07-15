@@ -1,7 +1,7 @@
 package com.lifeblog.blog.security;
 
 import com.lifeblog.blog.exception.APIAuthenticationException;
-import com.lifeblog.blog.exception.messages.ApplicationAPIExceptionMessage;
+import com.lifeblog.blog.exception.messages.APIAuthenticationExceptionErrorMessage;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,15 +39,15 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
         } catch (SignatureException e) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.INVALID_JWT_SIGNATURE.getErrorMessage());
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, APIAuthenticationExceptionErrorMessage.INVALID_JWT_SIGNATURE.getErrorMessage());
         } catch (MalformedJwtException e) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.INVALID_JWT_TOKEN.getErrorMessage());
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, APIAuthenticationExceptionErrorMessage.INVALID_JWT_TOKEN.getErrorMessage());
         } catch (ExpiredJwtException e) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.EXPIRED_JWT_TOKEN.getErrorMessage());
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, APIAuthenticationExceptionErrorMessage.EXPIRED_JWT_TOKEN.getErrorMessage());
         } catch (UnsupportedJwtException e) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.UNSUPPORTED_JWT_TOKEN.getErrorMessage());
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, APIAuthenticationExceptionErrorMessage.UNSUPPORTED_JWT_TOKEN.getErrorMessage());
         } catch (IllegalArgumentException e) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, ApplicationAPIExceptionMessage.CLAIMS_IS_EMPTY.getErrorMessage());
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, APIAuthenticationExceptionErrorMessage.CLAIMS_IS_EMPTY.getErrorMessage());
         }
         return true;
     }

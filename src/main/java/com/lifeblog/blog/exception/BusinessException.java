@@ -2,7 +2,12 @@ package com.lifeblog.blog.exception;
 
 import org.springframework.http.HttpStatus;
 
+import java.io.Serial;
+
 public class BusinessException extends RuntimeException{
+    @Serial
+    private static final long serialVersionUID = 3642105980276596378L;
+
     private HttpStatus httpStatus;
     private String message;
 

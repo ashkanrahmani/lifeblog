@@ -2,7 +2,7 @@ package com.lifeblog.blog.exception.messages;
 
 import com.lifeblog.blog.exception.ExceptionGroupCode;
 
-public enum ApplicationAPIExceptionMessage {
+public enum APIAuthenticationExceptionErrorMessage {
 
     INVALID_JWT_TOKEN("100", "Invalid JWT token"),
     INVALID_JWT_SIGNATURE("101", "Invalid JWT signature"),
@@ -13,7 +13,7 @@ public enum ApplicationAPIExceptionMessage {
     private final String errorMessage;
     private final String errorCode;
 
-    ApplicationAPIExceptionMessage(String errorCode, String errorMessage) {
+    APIAuthenticationExceptionErrorMessage(String errorCode, String errorMessage) {
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
     }
