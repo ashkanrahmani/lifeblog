@@ -1,4 +1,6 @@
-package com.lifeblog.blog.exception;
+package com.lifeblog.blog.exception.messages;
+
+import com.lifeblog.blog.exception.ExceptionGroupCode;
 
 public enum ResourceNotFoundExceptionMessage {
 
@@ -13,6 +15,6 @@ public enum ResourceNotFoundExceptionMessage {
     }
 
     public String getErrorMessage() {
-        return ExceptionGroupCode.RESOURCE.getGroupCode() + ": " + errorCode + ": " + errorMessage;
+        return ExceptionGroupCode.RESOURCE.getGroupCode() + errorCode + ": " + errorMessage;
     }
 }

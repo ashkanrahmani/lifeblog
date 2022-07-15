@@ -3,8 +3,8 @@ package com.lifeblog.blog.service.impl;
 import com.lifeblog.blog.controller.payload.CommentDto;
 import com.lifeblog.blog.entity.BlogPost;
 import com.lifeblog.blog.entity.Comment;
-import com.lifeblog.blog.exception.ApplicationAPIException;
-import com.lifeblog.blog.exception.ResourceNotFoundExceptionMessage;
+import com.lifeblog.blog.exception.APIAuthenticationException;
+import com.lifeblog.blog.exception.messages.ResourceNotFoundExceptionMessage;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.repository.CommentRepository;
@@ -54,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = getComment(commentId);
 
         if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
         }
 
         return getDto(comment);
@@ -72,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = getComment(commentId);
 
         if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
         }
 
         comment.setBody(commentDto.getBody());
@@ -88,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = getComment(commentId);
 
         if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
-            throw new ApplicationAPIException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
         }
 
         commentRepository.delete(comment);

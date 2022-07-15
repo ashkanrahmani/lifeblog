@@ -30,8 +30,8 @@ public class GlobalHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ApplicationAPIException.class)
-    public ResponseEntity<ErrorDetails> handleApplicationAPIException(ApplicationAPIException apiException, WebRequest webRequest) {
+    @ExceptionHandler(APIAuthenticationException.class)
+    public ResponseEntity<ErrorDetails> handleApplicationAPIException(APIAuthenticationException apiException, WebRequest webRequest) {
 
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setDate(new Date());

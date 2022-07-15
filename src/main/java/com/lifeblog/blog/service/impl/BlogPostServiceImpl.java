@@ -3,9 +3,12 @@ package com.lifeblog.blog.service.impl;
 import com.lifeblog.blog.controller.payload.BlogPostDto;
 import com.lifeblog.blog.controller.payload.BlogPostResponse;
 import com.lifeblog.blog.entity.BlogPost;
-import com.lifeblog.blog.exception.ApplicationAPIException;
-import com.lifeblog.blog.exception.ResourceNotFoundExceptionMessage;
+import com.lifeblog.blog.exception.APIAuthenticationException;
+import com.lifeblog.blog.exception.BusinessException;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
+import com.lifeblog.blog.exception.messages.ApplicationAPIExceptionMessage;
+import com.lifeblog.blog.exception.messages.BusinessExceptionErrorMessage;
+import com.lifeblog.blog.exception.messages.ResourceNotFoundExceptionMessage;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.service.BlogPostService;
 import org.modelmapper.ModelMapper;
@@ -36,10 +39,10 @@ public class BlogPostServiceImpl implements BlogPostService {
         try {
             save = blogPostRepository.save(blogPost);
         } catch (DataIntegrityViolationException e) {
-            throw new ApplicationAPIException(e.getMessage(), HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new BusinessException(BusinessExceptionErrorMessage.POST_TITLE_IS_NOT_UNIQUE.getErrorMessage(),
+                    HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.POST_TITLE_IS_NOT_UNIQUE.getErrorMessage());
         }
-        BlogPostDto blogPostDto = getDto(save);
-        return blogPostDto;
+        return getDto(save);
     }
 
     private BlogPost getEntity(BlogPostDto dto) {
