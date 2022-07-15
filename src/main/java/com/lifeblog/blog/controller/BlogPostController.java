@@ -29,7 +29,7 @@ public class BlogPostController {
         this.blogPostService = blogPostService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<BlogPostDto> createBlogPost(@Valid @RequestBody BlogPostDto postDto) {
         return new ResponseEntity<>(blogPostService.createBlogPost(postDto), HttpStatus.CREATED);
@@ -50,7 +50,7 @@ public class BlogPostController {
         return ResponseEntity.ok(blogPostService.getBlogPostById(id));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<BlogPostDto> updateBlogPostById(@Valid @RequestBody BlogPostDto blogPostDto,
             @PathVariable(name = "id") long id) {
@@ -58,7 +58,7 @@ public class BlogPostController {
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBlogPost(@PathVariable(name = "id") long id) {
         blogPostService.deleteBlogPostById(id);

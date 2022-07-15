@@ -3,9 +3,10 @@ package com.lifeblog.blog.service.impl;
 import com.lifeblog.blog.controller.payload.CommentDto;
 import com.lifeblog.blog.entity.BlogPost;
 import com.lifeblog.blog.entity.Comment;
-import com.lifeblog.blog.exception.APIAuthenticationException;
-import com.lifeblog.blog.exception.messages.ResourceNotFoundExceptionMessage;
+import com.lifeblog.blog.exception.BusinessException;
 import com.lifeblog.blog.exception.ResourceNotFoundException;
+import com.lifeblog.blog.exception.messages.BusinessExceptionErrorMessage;
+import com.lifeblog.blog.exception.messages.ResourceNotFoundExceptionMessage;
 import com.lifeblog.blog.repository.BlogPostRepository;
 import com.lifeblog.blog.repository.CommentRepository;
 import com.lifeblog.blog.service.CommentService;
@@ -25,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     private final ModelMapper mapper;
 
     public CommentServiceImpl(CommentRepository commentRepository, BlogPostRepository blogPostRepository,
-            ModelMapper mapper) {
+                              ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.blogPostRepository = blogPostRepository;
         this.mapper = mapper;
@@ -50,13 +51,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto getCommentById(long blogPostId, long commentId) {
         BlogPost blogPost = getBlogPost(blogPostId);
-
         Comment comment = getComment(commentId);
-
         if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+            throw new BusinessException(BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage(),
+                    HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage());
         }
-
         return getDto(comment);
     }
 
@@ -72,7 +71,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = getComment(commentId);
 
         if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+            throw new BusinessException(BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage(),
+                    HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage());
         }
 
         comment.setBody(commentDto.getBody());
@@ -88,11 +88,10 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = getComment(commentId);
 
         if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
-            throw new APIAuthenticationException(HttpStatus.BAD_REQUEST, "This comments is not belong to post");
+            throw new BusinessException(BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage(),
+                    HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage());
         }
-
         commentRepository.delete(comment);
-
     }
 
     private Comment getEntity(CommentDto dto) {
