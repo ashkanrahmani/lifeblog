@@ -1,8 +1,8 @@
 package com.lifeblog.blog.exception;
 
-import org.springframework.http.HttpStatus;
-
 import java.io.Serial;
+
+import org.springframework.http.HttpStatus;
 
 public class APIAuthenticationException extends RuntimeException {
 
