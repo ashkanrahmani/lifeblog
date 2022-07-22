@@ -15,10 +15,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "roles")
-public class Role implements Serializable {
+@Table(name = "authorities")
+public class Authority implements Serializable {
     @Serial
-    private static final long serialVersionUID = -6230882093306998629L;
+    private static final long serialVersionUID = 7118904699279521304L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,6 @@ public class Role implements Serializable {
     @Column(name = "name", nullable = false, length = 64)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "role_authorities",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private Set<Authority> authorities;
-
+    @ManyToMany(mappedBy = "authorities")
+    private Set<Role> roles;
 }
