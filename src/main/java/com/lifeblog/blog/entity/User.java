@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 @Getter
@@ -14,7 +16,10 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "email"}, name = "users_uc")})
-public class User {
+public class User implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 5939315525580549640L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

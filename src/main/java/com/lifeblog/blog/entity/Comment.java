@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +15,10 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "post_comment")
-public class Comment {
+public class Comment implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -14610322088702463L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
