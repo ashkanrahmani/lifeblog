@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto getCommentById(long blogPostId, long commentId) {
         BlogPost blogPost = getBlogPost(blogPostId);
         Comment comment = getComment(commentId);
-        if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
+        if (comment.getBlogPost().getId() != blogPost.getId()) {
             throw new BusinessException(BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage(),
                     HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage());
         }
@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
         BlogPost blogPost = getBlogPost(blogPostId);
         Comment comment = getComment(commentId);
 
-        if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
+        if (comment.getBlogPost().getId() != blogPost.getId()) {
             throw new BusinessException(BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage(),
                     HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage());
         }
@@ -87,7 +87,7 @@ public class CommentServiceImpl implements CommentService {
         BlogPost blogPost = getBlogPost(blogPostId);
         Comment comment = getComment(commentId);
 
-        if (!comment.getBlogPost().getId().equals(blogPost.getId())) {
+        if (comment.getBlogPost().getId() != blogPost.getId()) {
             throw new BusinessException(BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage(),
                     HttpStatus.BAD_REQUEST, BusinessExceptionErrorMessage.COMMENT_NOT_BELONG_TO_POST.getErrorMessage());
         }
