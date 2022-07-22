@@ -29,4 +29,8 @@ public class Authority implements Serializable {
 
     @ManyToMany(mappedBy = "authorities")
     private Set<Role> roles;
+
+    public Authority(String name) {
+        this.name = name;
+    }
 }

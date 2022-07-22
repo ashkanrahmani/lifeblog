@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -36,6 +37,9 @@ public class User implements Serializable {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "uuid", nullable = false)
+    private UUID uuid = UUID.randomUUID();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",

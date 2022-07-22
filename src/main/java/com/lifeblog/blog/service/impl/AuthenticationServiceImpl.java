@@ -61,7 +61,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setName(signUpDto.getName());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN").get();
+        Role role = roleRepository.findByName("ROLE_ADMIN");
         user.setRoles(Collections.singleton(role));
         userRepository.save(user);
         signUpDto.setSignedUp(true);

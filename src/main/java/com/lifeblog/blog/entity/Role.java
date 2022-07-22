@@ -33,4 +33,12 @@ public class Role implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
 
+    public Role(String name, Set<Authority> authorities) {
+        this.name = name;
+        this.authorities = authorities;
+    }
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

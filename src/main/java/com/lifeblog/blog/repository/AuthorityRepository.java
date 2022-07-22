@@ -1,13 +1,13 @@
 package com.lifeblog.blog.repository;
 
-import com.lifeblog.blog.entity.Role;
+import com.lifeblog.blog.entity.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface AuthorityRepository extends JpaRepository<Authority, Long> {
 
-    Role findByName(String name);
+     Authority findByName(String name);
 }
